@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  redis:
+    image: redis
+    command: redis-server --notify-keyspace-events Ex
+    ports:
+      - "6379:6379"
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  listener_service:
+    build: .
+    depends_on:
+      - redis
+      - rabbitmq
